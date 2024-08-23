@@ -5,9 +5,10 @@ In the server running terminal or notebook write these commands
 
 
 - To install the code
-!apt update
-!apt install unzip
-
+    ```
+    !apt update
+    !apt install unzip
+    ```
 # Download the zip file of the repository
 !wget https://github.com/AhmadHammad21/Text-Vision/archive/refs/heads/main.zip
 
