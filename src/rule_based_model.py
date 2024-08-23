@@ -1,6 +1,6 @@
 import re
-from .utils import find_word_in_text
-from .logger import logging
+from utils import find_word_in_text
+from logger import logging
 
 
 class RuleBasedModel:
@@ -31,7 +31,7 @@ class RuleBasedModel:
             'فاتورة بيع ذمم': []
         }
 
-        self.predictions['header_text'] = find_word_in_text(self.text, header_text_dictionary=header_text_dictionary)
+        self.predictions['Header Text'] = find_word_in_text(self.text, header_text_dictionary=header_text_dictionary)
 
     def extract_payment_terms(self):
         pass

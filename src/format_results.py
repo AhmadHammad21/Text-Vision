@@ -1,4 +1,4 @@
-from .logger import logging
+from logger import logging
 
 
 class FormatResults:
@@ -47,7 +47,7 @@ class FormatResults:
         logging.info("Final Predictions")
         logging.info(final_predictions)
 
-        logging.info('FormatResults.process Started')
+        logging.info('FormatResults.process Finished')
 
         return final_predictions
     

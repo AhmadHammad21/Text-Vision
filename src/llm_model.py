@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 import json
-from .logger import logging
+from logger import logging
 
 
 def extract_json_from_list(string_list):

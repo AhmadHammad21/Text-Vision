@@ -4,8 +4,8 @@ from bidi import get_display
 import pytesseract
 from pdf2image import convert_from_path
 from PIL import Image
-from .logger import logging
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+from logger import logging
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
 def does_pdf_contains_text(pdf_path):

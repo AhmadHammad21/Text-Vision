@@ -4,7 +4,7 @@ from rule_based_model import RuleBasedModel
 from format_results import FormatResults
 
 
-def main():
+def generate_things():
     file_path = r'C:\Users\user\OneDrive\Noura_OCR\Invoices\Invoices\Cleaned_Invoices\pdf_text\6220327945_Gulf Medical Co Ltd _202401.pdf'
 
     # Process text extraction
@@ -18,7 +18,3 @@ def main():
 
     final_result = FormatResults(llm_predictions=llm_predictions, rules_predictions=rules_predictions).process()
 
-
-# This block ensures that the following code only runs when the script is executed directly.
-if __name__ == "__main__":
-    main()
