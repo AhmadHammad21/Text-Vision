@@ -8,7 +8,6 @@ In the server running terminal or notebook write these commands
     !apt update
     !apt install unzip
     !wget https://github.com/AhmadHammad21/Text-Vision/archive/refs/heads/main.zip
-
     !unzip main.zip
     ```
 
