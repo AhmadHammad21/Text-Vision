@@ -4,10 +4,10 @@ import fitz  # PyMuPDF
 from PIL import Image
 import io
 import tempfile
-from src.text_extractor import TextExtraction
-from src.llm_model import LLM_L200
-from src.rule_based_model import RuleBasedModel
-from src.format_results import FormatResults
+from text_extractor import TextExtraction
+from llm_model import LLM_L200
+from rule_based_model import RuleBasedModel
+from format_results import FormatResults
 
 # Define the rules_predictions dictionary
 # rules_predictions = {
