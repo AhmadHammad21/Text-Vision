@@ -15,3 +15,9 @@ In the server running terminal or notebook write these commands
 run the first cell in `install_requirements.ipynb` notebook
 
 - Specify a file path then run `main.py`
+
+- Run Demo
+ ```
+ streamlit run my_app.py --server.enableCORS=false
+ ```
+
