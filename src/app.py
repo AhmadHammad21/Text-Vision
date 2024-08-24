@@ -5,7 +5,7 @@ from PIL import Image
 import io
 import tempfile
 from text_extractor import TextExtraction
-from llm_model import LLM_L200
+from llm_model import LLM_L200, LLM_Phi
 from rule_based_model import RuleBasedModel
 from format_results import FormatResults
 
@@ -54,11 +54,15 @@ if uploaded_file is not None:
         
         # LLM model predictions
         llm_predictions = LLM_L200(text=extracted_text['page1']).process()
+        if len(extracted_text) >= 2:
+            payment_predictions = LLM_Phi(text=extracted_text['page1']+extracted_text[f"page{len(extracted_text)}"]).process()
+        else:
+            payment_predictions = LLM_Phi(text=extracted_text['page1']).process()
 
         # Rule-based model predictions
         rules_predictions = RuleBasedModel(text=extracted_text['page1']).process()
 
-        final_result = FormatResults(llm_predictions=llm_predictions, rules_predictions=rules_predictions).process()
+        final_result = FormatResults(llm_predictions=llm_predictions, payment_predictions = payment_predictions, rules_predictions=rules_predictions).process()
 
         # Create a DataFrame from the dictionary
         df = pd.DataFrame(list(final_result.items()), columns=['Field', 'Value'])
