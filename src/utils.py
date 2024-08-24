@@ -28,3 +28,13 @@ def find_word_in_text(text: str, header_text_dictionary: dict) -> bool:
                 return search_result
             
     return search_result
+
+def search_payment_method(text: str, keywords_list: list):
+    text = text.lower()
+    words = text.split()
+
+    for keyword in keywords_list:
+        if any(keyword in word for word in words):
+            return keyword
+
+    return None
