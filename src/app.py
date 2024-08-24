@@ -26,7 +26,7 @@ if uploaded_file is not None:
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         temp_file.write(uploaded_file.read())
         file_path = temp_file.name
-        logging(f"Uploaded File Path: {file_path}")
+        logging.info(f"Uploaded File Path: {file_path}")
 
 
     if uploaded_file.type == "application/pdf":
@@ -42,8 +42,6 @@ if uploaded_file is not None:
         is_image = True
         # Display the uploaded image
         st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
-
-        # file_path = file_path + "." + uploaded_file.type[:-]
 
     # Add a button to show results
     if st.button("Show Results"):
