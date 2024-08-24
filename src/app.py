@@ -63,8 +63,18 @@ if uploaded_file is not None:
 
         # Create a DataFrame from the dictionary
         df = pd.DataFrame(list(final_result.items()), columns=['Field', 'Value'])
+
+        SHOW_FIELDS = [
+            "Invoice Date", "Company Code", "Invoice Number", "Header Text",
+            "Item Text", "Assignment", "Purchase Order/Scheduling Agreement",
+            "Payment Terms", "Payment Method"
+        ]
+
+        df = df[df['Field'].isin(SHOW_FIELDS)]
+        
         df = df.set_index('Field')
 
         # Display the DataFrame
         st.write("Result: ")
         st.dataframe(df, width=500)
+        
