@@ -1,5 +1,5 @@
 import re
-from utils import find_word_in_text
+from utils import find_word_in_text, search_payment_method
 from logger import logging
 
 
@@ -38,5 +38,6 @@ class RuleBasedModel:
 
 
     def extract_payment_method(self):
-        pass
-
+        keywords = ["cash", "credit card", "اجل", "ذمم", "bank", "نقد"]
+        predicted_payment_method = search_payment_method(text, keywords)
+        self.predictions["Payment Method"] = predicted_payment_method
