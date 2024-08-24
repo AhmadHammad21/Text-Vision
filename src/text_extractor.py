@@ -5,7 +5,7 @@ import pytesseract
 from pdf2image import convert_from_path
 from PIL import Image
 from logger import logging
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 
 def does_pdf_contains_text(pdf_path):
@@ -31,15 +31,16 @@ def is_image(file_path):
 
 
 class TextExtraction:
-    def __init__(self, file_path: str) -> None:
+    def __init__(self, file_path: str, is_image: bool) -> None:
         self.file_path = file_path
+        self.is_image = is_image
         self.text_dict = {}
         self.clean_text_dict = {}
 
     def process(self):
         logging.info('TextExtraction.process Started')
 
-        if is_image(self.file_path):
+        if self.is_image:
             self.extract_text_from_image()
         elif does_pdf_contains_text(self.file_path):
             self.extract_text_from_pdf_text()

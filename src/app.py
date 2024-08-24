@@ -8,19 +8,8 @@ from text_extractor import TextExtraction
 from llm_model import LLM_L200, LLM_Phi
 from rule_based_model import RuleBasedModel
 from format_results import FormatResults
+from logger import logging
 
-# Define the rules_predictions dictionary
-# rules_predictions = {
-#     'Invoice Date': '10/03/2024',
-#     'Company Code': '20 2938',
-#     'Invoice Number': '5596',
-#     'Header Text': 'Tax Invoice',
-#     'Item Text': None,
-#     'Assignment': None,
-#     'Purchase Order/Scheduling Agreement': None,
-#     'Payment Terms': 'N30',
-#     'Payment Method': 'Cash'
-# }
 
 # Streamlit app title
 st.title("Text Extraction")
@@ -29,10 +18,16 @@ st.title("Text Extraction")
 uploaded_file = st.file_uploader("Upload a PDF or Image file", type=["pdf", "png", "jpg", "jpeg"])
 
 if uploaded_file is not None:
+    logging.info("Uploaded File: ")
+    logging.info(uploaded_file)
+    is_image = False
+    
     # Save the uploaded file temporarily
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
         temp_file.write(uploaded_file.read())
         file_path = temp_file.name
+        logging(f"Uploaded File Path: {file_path}")
+
 
     if uploaded_file.type == "application/pdf":
         # Display PDF preview (first page only)
@@ -44,13 +39,17 @@ if uploaded_file is not None:
         st.image(img, caption="PDF Preview - Page 1", use_column_width=True)
 
     elif uploaded_file.type in ["image/png", "image/jpeg", "image/jpg"]:
+        is_image = True
         # Display the uploaded image
         st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
 
+        # file_path = file_path + "." + uploaded_file.type[:-]
+
     # Add a button to show results
     if st.button("Show Results"):
+        
         # Use the TextExtraction class to process the file
-        extracted_text = TextExtraction(file_path=file_path).process()
+        extracted_text = TextExtraction(file_path=file_path, is_image=is_image).process()
         
         # LLM model predictions
         llm_predictions = LLM_L200(text=extracted_text['page1']).process()
