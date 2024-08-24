@@ -6,6 +6,9 @@ from format_results import FormatResults
 
 def generate_results():
     file_path = r'C:\Users\user\OneDrive\Noura_OCR\Invoices\Invoices\Cleaned_Invoices\pdf_text\6220327945_Gulf Medical Co Ltd _202401.pdf'
+    """TO DO
+    # check how to integrate this with streamlit and test it out using the instance
+    """
 
     # Process text extraction
     extracted_text = TextExtraction(file_path=file_path).process()
