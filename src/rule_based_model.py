@@ -39,5 +39,5 @@ class RuleBasedModel:
 
     def extract_payment_method(self):
         keywords = ["cash", "credit card", "اجل", "ذمم", "bank", "نقد"]
-        predicted_payment_method = search_payment_method(text, keywords)
+        predicted_payment_method = search_payment_method(self.text, keywords)
         self.predictions["Payment Method"] = predicted_payment_method
