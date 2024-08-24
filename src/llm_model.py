@@ -100,3 +100,75 @@ class LLM_L200:
     def format_answer(self) -> None:
         self.format_predictions = extract_json_from_list(self.predictions.split("\n")[3: -3])
 
+
+class LLM_Phi:
+    self.text = text
+    self.payment_method_prediction = ""
+    self.payment_terms_prediction = ""
+    self.format_predictions = {}
+    self.phi_model_name = "microsoft/Phi-3.5-mini-instruct"
+    self.phi_tokenizer = AutoTokenizer.from_pretrained(self.phi_model_name)
+    self.phi_model = AutoModelForCausalLM.from_pretrained(self.phi_model_name, torch_dtype=torch.bfloat16, device_map="auto", trust_remote_code=True)
+
+    def process(self) -> dict:
+        logging.info('Phi.process Started')
+
+        self.predict()
+
+        self.format_answer()
+
+        logging.info('Phi process Finished')
+
+        return self.format_predictions
+
+    def predict_payment_method(self) -> None:
+        question_payment_method = """
+            You are a helpful AI English and Arabic Bilingual assistant. Given a JSON of text extracted from an invoice, find the payment method to pay the invoice. 
+            Do not elaborate on your answer and do not make assumptions. You can only return one of the following values: cash, credit, debit, or bank transfer. 
+            Return only the payment method without explanation. If no payment method is mentioned, return None.
+        """
+        messages = [
+            {"role": "system", "content": question_payment_method},
+            {"role": "user", "content": self.text},
+        ]
+
+        input_ids = self.phi_tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt").to(self.phi_model.device)
+
+        outputs = self.phi_model.generate(input_ids,
+            do_sample=False,
+            temperature=0.0,
+            max_new_tokens=500,
+            return_full_text = False,
+        )
+        response = outputs[0][input_ids.shape[-1]:]
+        self.payment_method_prediction = self.phi_tokenizer.decode(response, skip_special_tokens=True)
+
+    
+    def predict_payment_terms(self) -> None:
+        question_payment_terms = """
+            You are a helpful AI English and Arabic Bilingual assistant. Given a JSON of text extracted from an invoice, identify and extract the payment terms specified in the invoice. 
+            Do not elaborate on your answer and do not make assumptions. Return only the payment terms without explanation. If no payment terms are mentioned, return None.
+        """
+
+        messages = [
+            {"role": "system", "content": question_payment_terms},
+            {"role": "user", "content": self.text},
+        ]
+
+        input_ids = self.phi_tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt").to(self.phi_model.device)
+
+        outputs = self.phi_model.generate(input_ids,
+            do_sample=False,
+            temperature=0.0,
+            max_new_tokens=500,
+            return_full_text=False,
+        )
+        response = outputs[0][input_ids.shape[-1]:]
+        self.payment_terms_prediction = self.phi_tokenizer.decode(response, skip_special_tokens=True)
+
+    
+    def format_answer(self) -> None:
+        self.format_predictions = {
+            "Payment Method": self.payment_method_prediction.strip(),
+            "Payment Terms": self.payment_terms_prediction.strip()
+        }
