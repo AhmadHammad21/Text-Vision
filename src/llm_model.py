@@ -140,8 +140,7 @@ class LLM_Phi:
         outputs = self.phi_model.generate(input_ids,
             do_sample=False,
             temperature=0.0,
-            max_new_tokens=500,
-            return_full_text = False,
+            max_new_tokens=500
         )
         response = outputs[0][input_ids.shape[-1]:]
         self.payment_method_prediction = self.phi_tokenizer.decode(response, skip_special_tokens=True)
@@ -163,8 +162,7 @@ class LLM_Phi:
         outputs = self.phi_model.generate(input_ids,
             do_sample=False,
             temperature=0.0,
-            max_new_tokens=500,
-            return_full_text=False,
+            max_new_tokens=500
         )
         response = outputs[0][input_ids.shape[-1]:]
         self.payment_terms_prediction = self.phi_tokenizer.decode(response, skip_special_tokens=True)
